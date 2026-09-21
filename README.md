@@ -16,7 +16,8 @@ nix develop -c dotnet build SpawnOnDamage.slnx -c Release
 ```
 
 The plugin lands in
-`src/SpawnOnDamage.Plugin/bin/Release/net472/SpawnOnDamage.dll`.
+`src/SpawnOnDamage.Plugin/bin/Release/net472/` — `SpawnOnDamage.dll` plus
+`SpawnOnDamage.Core.dll`.
 
 ## Install
 
@@ -24,7 +25,10 @@ The plugin lands in
    into the game directory (the `BepInEx_win_x64` zip for Proton/Windows,
    `BepInEx_linux_x64` for native). Subnautica is a Windows game under
    Proton, so normally the win_x64 build.
-2. Copy `SpawnOnDamage.dll` into `<game>/BepInEx/plugins/`.
+2. Copy `SpawnOnDamage.dll` **and** `SpawnOnDamage.Core.dll` (both from the
+   same output directory) into `<game>/BepInEx/plugins/`. The pool and
+   cooldown logic live in the Core assembly; without it the plugin fails to
+   load.
 3. Start the game once; the config file appears at
    `<game>/BepInEx/config/caesarakalaeii.spawnondamage.cfg`.
 
@@ -37,6 +41,9 @@ The plugin lands in
 |`CooldownSeconds`|`60`|Minimum seconds between spawns. Lower or equal to 0 spawns on every damage event.|
 
 ## Verify in game
+
+Not yet verified in game on this headless machine; these steps are its
+first run.
 
 1. Load a save, enable the console, `damage 10` (or let something bite you).
 2. A leviathan should spawn ~30 m ahead, ~15 m below the surface.

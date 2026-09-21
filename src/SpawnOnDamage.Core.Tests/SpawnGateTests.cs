@@ -48,6 +48,18 @@ public class SpawnGateTests
     }
 
     [TestMethod]
+    public void TrySpawnAtExactlyTheCooldownIsGranted()
+    {
+        var clock = new FakeClock();
+        var gate = new SpawnGate(clock.Now, 60);
+
+        gate.TrySpawn().Should().BeTrue();
+        clock.Advance(60);
+
+        gate.TrySpawn().Should().BeTrue("the cooldown window is half-open: [spawn, spawn+60)");
+    }
+
+    [TestMethod]
     public void DisabledGateRefusesWithoutConsumingCooldown()
     {
         var clock = new FakeClock();

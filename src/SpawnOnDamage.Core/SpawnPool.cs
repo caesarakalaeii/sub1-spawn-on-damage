@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace SpawnOnDamage.Core;
@@ -39,7 +40,8 @@ public sealed class SpawnPool
                     // operator's typo never silently reweights the pool.
                     var name = token[..separator].Trim();
                     var weightText = token[(separator + 1)..].Trim();
-                    if (double.TryParse(weightText, out var weight) && weight > 0 && name.Length > 0)
+                    if (double.TryParse(weightText, NumberStyles.Float, CultureInfo.InvariantCulture, out var weight)
+                        && weight > 0 && !double.IsInfinity(weight) && !double.IsNaN(weight) && name.Length > 0)
                     {
                         entries.Add(new Entry(name, weight));
                     }
