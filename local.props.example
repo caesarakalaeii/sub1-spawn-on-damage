@@ -1,4 +1,5 @@
-<!-- Copy to local.props (gitignored) if your game is not at ~/subnautica.
+<!-- Copy to local.props (gitignored) if your game is not at the default Steam
+     path.
 
      SubnauticaDir  the game install; the plugin build resolves
                     Assembly-CSharp.dll and the UnityEngine modules from it.
@@ -7,6 +8,6 @@
 -->
 <Project>
   <PropertyGroup>
-    <SubnauticaDir>/home/you/subnautica</SubnauticaDir>
+    <SubnauticaDir>/home/you/.local/share/Steam/Steamapps/common/Subnautica</SubnauticaDir>
   </PropertyGroup>
 </Project>

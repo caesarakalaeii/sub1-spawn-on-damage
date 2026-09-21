@@ -16,7 +16,7 @@
 
   <PropertyGroup>
     <SubnauticaDir Condition="'$(SubnauticaDir)' == '' and '$(SUBNAUTICA_INSTALLATION_PATH)' != ''">$(SUBNAUTICA_INSTALLATION_PATH)</SubnauticaDir>
-    <SubnauticaDir Condition="'$(SubnauticaDir)' == ''">$(HOME)/subnautica</SubnauticaDir>
+    <SubnauticaDir Condition="'$(SubnauticaDir)' == ''">$(HOME)/.local/share/Steam/Steamapps/common/Subnautica</SubnauticaDir>
     <GameManagedDir>$(SubnauticaDir)/Subnautica_Data/Managed/</GameManagedDir>
   </PropertyGroup>
 
@@ -24,6 +24,7 @@
     <Error Condition="!Exists('$(GameManagedDir)Assembly-CSharp.dll')"
            Text="No Subnautica install at '$(SubnauticaDir)'. Set SubnauticaDir in local.props (see local.props.example) or the SUBNAUTICA_INSTALLATION_PATH environment variable." />
   </Target>
+
 
   <ItemGroup>
     <ProjectReference Include="../SpawnOnDamage.Core/SpawnOnDamage.Core.csproj" />
