@@ -4,10 +4,12 @@ using SpawnOnDamage.Core;
 using UnityEngine;
 
 namespace SpawnOnDamage.Plugin;
-
 /// <summary>Spawns a creature near the player. Subnautica's prefab pipeline is
-/// async, so this runs as a coroutine; null prefab results are logged, never
-/// thrown — a spawn failure must not interrupt the damage call it hangs off.</summary>
+/// async, so this runs as a coroutine on UWE.CoroutineHost, the game's global
+/// dispatcher — no plugin-owned MonoBehaviour has to survive scene loads
+/// (the plugin object was destroyed by one, which is how the first in-game
+/// run NRE'd inside StartCoroutine). Null prefab results are logged, never
+/// thrown.</summary>
 internal sealed class LeviathanSpawner
 {
     private const float SpawnDistance = 30f;
@@ -15,8 +17,7 @@ internal sealed class LeviathanSpawner
 
     public void BeginSpawn(string creatureName)
     {
-        // Coroutines must run on a live GameObject; the plugin object is one.
-        Plugin.Instance.StartCoroutine(SpawnAsync(creatureName));
+        UWE.CoroutineHost.StartCoroutine(SpawnAsync(creatureName));
     }
 
     private static IEnumerator SpawnAsync(string creatureName)

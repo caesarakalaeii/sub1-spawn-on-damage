@@ -19,7 +19,6 @@ public sealed class Plugin : BaseUnityPlugin
 
     private static SpawnGate _gate = null!;
     private static SpawnPool _pool = null!;
-    internal static Plugin Instance = null!;
     private static Random _rng = null!;
 
     private static LeviathanSpawner _spawner = null!;
@@ -27,7 +26,6 @@ public sealed class Plugin : BaseUnityPlugin
     private void Awake()
     {
         Log = base.Logger;
-        Instance = this;
 
 
         // Bind the Core constants, not literals: the cfg defaults cannot drift
