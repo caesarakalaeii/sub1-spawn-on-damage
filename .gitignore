@@ -1,0 +1,19 @@
+# .NET
+bin/
+obj/
+*.user
+TestResults/
+[Dd]ebug/
+[Rr]elease/
+
+# Nix
+result
+result-*
+
+# local machine paths
+local.props
+
+# editors
+.idea/
+.vs/
+.vscode/

@@ -1,0 +1,12 @@
+<!-- Copy to local.props (gitignored) if your game is not at ~/subnautica.
+
+     SubnauticaDir  the game install; the plugin build resolves
+                    Assembly-CSharp.dll and the UnityEngine modules from it.
+                    The SUBNAUTICA_INSTALLATION_PATH environment variable
+                    wins over the default, same as the sibling repo.
+-->
+<Project>
+  <PropertyGroup>
+    <SubnauticaDir>/home/you/subnautica</SubnauticaDir>
+  </PropertyGroup>
+</Project>

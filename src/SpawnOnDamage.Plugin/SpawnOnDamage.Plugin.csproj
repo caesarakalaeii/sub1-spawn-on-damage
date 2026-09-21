@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Per-developer path to the game; see local.props.example. -->
+  <Import Project="$(MSBuildThisFileDirectory)../../local.props" Condition="Exists('$(MSBuildThisFileDirectory)../../local.props')" />
+
+  <PropertyGroup>
+    <!-- The game runs Mono against .NET Framework 4.7.2 assemblies. -->
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>annotations</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>SpawnOnDamage</AssemblyName>
+    <RootNamespace>SpawnOnDamage.Plugin</RootNamespace>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SubnauticaDir Condition="'$(SubnauticaDir)' == '' and '$(SUBNAUTICA_INSTALLATION_PATH)' != ''">$(SUBNAUTICA_INSTALLATION_PATH)</SubnauticaDir>
+    <SubnauticaDir Condition="'$(SubnauticaDir)' == ''">$(HOME)/subnautica</SubnauticaDir>
+    <GameManagedDir>$(SubnauticaDir)/Subnautica_Data/Managed/</GameManagedDir>
+  </PropertyGroup>
+
+  <Target Name="CheckGameIsPresent" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(GameManagedDir)Assembly-CSharp.dll')"
+           Text="No Subnautica install at '$(SubnauticaDir)'. Set SubnauticaDir in local.props (see local.props.example) or the SUBNAUTICA_INSTALLATION_PATH environment variable." />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="../SpawnOnDamage.Core/SpawnOnDamage.Core.csproj" />
+  </ItemGroup>
+
+  <!-- BepInEx 5.4.23 core DLLs, vendored (no official nuget package exists). -->
+  <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>$(MSBuildThisFileDirectory)../../lib/bepinex/BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(MSBuildThisFileDirectory)../../lib/bepinex/0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- The game's own assemblies. Private=false: already loaded in-process. -->
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(GameManagedDir)Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>$(GameManagedDir)Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(GameManagedDir)UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GameManagedDir)UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(GameManagedDir)UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- Coroutines. -->
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>$(GameManagedDir)UnityEngine.SharedInternalsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
