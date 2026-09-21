@@ -32,9 +32,14 @@ DLLs into `BepInEx/plugins/`. Both are idempotent.
 .\install-windows.ps1
 ```
 
-Pass the game dir as an argument when Steam is elsewhere. Then start the
-game once; the config file appears at
-`<game>/BepInEx/config/caesarakalaeii.spawnondamage.cfg`.
+**Proton (Linux Steam) — required, or BepInEx never loads.** Wine ignores
+the `winhttp.dll` proxy by default, so doorstop never runs and the game
+starts vanilla. In Steam: Subnautica → Properties → Launch Options:
+
+```text
+WINEDLLOVERRIDES="winhttp=n,b" %command%
+```
+
 
 ## Config
 
