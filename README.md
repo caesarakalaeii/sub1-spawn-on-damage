@@ -7,8 +7,9 @@ Leviathan, Sea Dragon. Default cooldown: 60 seconds.
 ## Build
 
 Needs the dotnet SDK 10 (provided by the flake) and a Subnautica install at
-`~/subnautica` (override via `local.props`, see `local.props.example`, or the
-`SUBNAUTICA_INSTALLATION_PATH` environment variable).
+the default Steam library path (override via `local.props`, see
+`local.props.example`, or the `SUBNAUTICA_INSTALLATION_PATH` environment
+variable).
 
 ```sh
 nix develop -c dotnet test SpawnOnDamage.slnx          # core logic
@@ -40,6 +41,8 @@ starts vanilla. In Steam: Subnautica → Properties → Launch Options:
 WINEDLLOVERRIDES="winhttp=n,b" %command%
 ```
 
+Then start the game once; the config appears at
+`<game>/BepInEx/config/caesarakalaeii.spawnondamage.cfg`.
 
 ## Config
 
@@ -51,13 +54,14 @@ WINEDLLOVERRIDES="winhttp=n,b" %command%
 
 ## Verify in game
 
-Not yet verified in game on this headless machine; these steps are its
-first run.
-
-1. Load a save, enable the console, `damage 10` (or let something bite you).
+1. Load a save, enable the console, `takedamage 20` (or let something bite you).
 2. A leviathan should spawn ~30 m ahead, ~15 m below the surface.
 3. Damage again immediately: no second spawn (cooldown). Wait 60 s: spawn.
 4. `BepInEx/LogOutput.log` carries the plugin banner and each spawn line.
 
 Note the pool accepts any TechType name (`Peeper`, `CrabSnake`, ...), not
 just leviathans.
+
+## Licence
+
+MIT, see [LICENSE](LICENSE).
