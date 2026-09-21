@@ -21,7 +21,6 @@ public sealed class SpawnGate
 
     public bool Enabled { get; set; } = true;
 
-
     public bool TrySpawn()
     {
         if (!Enabled)

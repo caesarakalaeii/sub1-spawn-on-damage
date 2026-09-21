@@ -19,7 +19,6 @@ internal static class DamageHook
         if (__instance == Player.main?.liveMixin)
         {
             _healthBefore = __instance.health;
-            Plugin.Log.LogInfo($"{Plugin.PluginGuid}: player TakeDamage start, health={_healthBefore:0.#}");
         }
     }
 
@@ -34,10 +33,8 @@ internal static class DamageHook
         // Prefix ran for the same instance only when the guard above held, so
         // a stale _healthBefore cannot leak across instances: non-player
         // TakeDamage calls never touch it.
-        Plugin.Log.LogInfo($"{Plugin.PluginGuid}: player TakeDamage end, health { _healthBefore:0.#} -> {__instance.health:0.#}");
         if (__instance.health >= _healthBefore)
         {
-            Plugin.Log.LogInfo($"{Plugin.PluginGuid}: no health lost, no spawn gate");
             return;
         }
 

@@ -27,7 +27,6 @@ public sealed class Plugin : BaseUnityPlugin
     {
         Log = base.Logger;
 
-
         // Bind the Core constants, not literals: the cfg defaults cannot drift
         // from the tested defaults because they ARE the tested defaults.
         ConfigEntry<bool> enabled = Config.Bind("Spawn", "Enabled", true,
