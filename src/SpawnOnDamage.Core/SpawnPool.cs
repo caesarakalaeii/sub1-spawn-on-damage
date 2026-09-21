@@ -59,7 +59,7 @@ public sealed class SpawnPool
     public string? Pick(Random rng)
     {
         var total = Entries.Sum(e => e.Weight);
-        if (total <= 0)
+        if (total <= 0 || double.IsInfinity(total))
         {
             return null;
         }
