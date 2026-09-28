@@ -59,13 +59,15 @@ Then start the game once; the config appears at
 |`Enabled`|`true`|Master switch.|
 |`SpawnPool`|`ReaperLeviathan,GhostLeviathan,SeaDragon`|Comma-separated creature TechType names. Optional weight after a colon: `GhostLeviathan:2` is twice as likely as an unweighted entry. Unknown names are logged and skipped.|
 |`CooldownSeconds`|`60`|Minimum seconds between spawns. Lower or equal to 0 spawns on every damage event.|
+|`VehicleDamageEnabled`|`true`|Also spawn when a vehicle you are piloting or aboard (Seamoth, Prawn, Cyclops) takes damage. Parked vehicles do not trigger. Shares the spawn pool and the cooldown with player damage.|
 
 ## Verify in game
 
 1. Load a save, enable the console, `takedamage 20` (or let something bite you).
 2. A leviathan should spawn ~30 m ahead, ~15 m below the surface.
 3. Damage again immediately: no second spawn (cooldown). Wait 60 s: spawn.
-4. `BepInEx/LogOutput.log` carries the plugin banner and each spawn line.
+4. Pilot a Seamoth, let something bite it: spawn. Park it, let something bite it: no spawn.
+5. `BepInEx/LogOutput.log` carries the plugin banner and each spawn line.
 
 Note the pool accepts any TechType name (`Peeper`, `CrabSnake`, ...), not
 just leviathans.

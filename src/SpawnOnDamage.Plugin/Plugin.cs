@@ -20,6 +20,7 @@ public sealed class Plugin : BaseUnityPlugin
     private static SpawnGate _gate = null!;
     private static SpawnPool _pool = null!;
     private static Random _rng = null!;
+    private static bool _vehicleDamageEnabled;
 
     private static LeviathanSpawner _spawner = null!;
 
@@ -35,6 +36,8 @@ public sealed class Plugin : BaseUnityPlugin
             "Comma-separated creature TechType names; optional weight after a colon (Name:Weight).");
         ConfigEntry<double> cooldown = Config.Bind("Spawn", "CooldownSeconds", SpawnGate.DefaultCooldownSeconds,
             "Minimum seconds between spawns.");
+        ConfigEntry<bool> vehicleDamage = Config.Bind("Spawn", "VehicleDamageEnabled", true,
+            "Also spawn a creature when a vehicle you are piloting or aboard (Seamoth, Prawn, Cyclops) takes damage.");
 
         _pool = SpawnPool.Parse(pool.Value);
         if (_pool.Entries.Count == 0)
@@ -48,6 +51,7 @@ public sealed class Plugin : BaseUnityPlugin
         };
         _rng = new Random();
         _spawner = new LeviathanSpawner();
+        _vehicleDamageEnabled = vehicleDamage.Value;
 
         var harmony = new Harmony(PluginGuid);
         harmony.PatchAll(typeof(DamageHook));
@@ -55,6 +59,19 @@ public sealed class Plugin : BaseUnityPlugin
     }
 
     internal static void OnPlayerDamaged()
+    {
+        TrySpawn();
+    }
+
+    internal static void OnVehicleDamaged()
+    {
+        if (_vehicleDamageEnabled)
+        {
+            TrySpawn();
+        }
+    }
+
+    private static void TrySpawn()
     {
         if (!_gate.TrySpawn())
         {
