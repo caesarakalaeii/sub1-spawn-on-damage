@@ -22,15 +22,23 @@ The plugin lands in
 
 ## Install
 
-The install scripts fetch BepInEx 5.4.23 win_x64 (the right build even on
-Linux: Subnautica runs under Proton) into the game dir and copy both mod
-DLLs into `BepInEx/plugins/`. Both are idempotent.
+The Windows installer builds the plugin first (needs the dotnet SDK 10:
+`winget install Microsoft.DotNet.SDK.10`), then fetches BepInEx 5.4.23 win_x64
+into the game dir and copies both mod DLLs into `BepInEx/plugins/`. The Linux
+script installs pre-built DLLs (build them with the flake as above). Both
+installers are idempotent.
 
 ```sh
 # Linux (game at the default Steam path)
 ./install-linux.sh
-# Windows
-.\install-windows.ps1
+```
+
+```powershell
+# Windows (PowerShell's default execution policy blocks .ps1 files)
+powershell -ExecutionPolicy Bypass -File .\install-windows.ps1
+
+# Game on another drive or library:
+powershell -ExecutionPolicy Bypass -File .\install-windows.ps1 -GameDir 'F:\SteamLibrary\steamapps\common\Subnautica'
 ```
 
 **Proton (Linux Steam) — required, or BepInEx never loads.** Wine ignores
